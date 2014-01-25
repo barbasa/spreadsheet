@@ -22,7 +22,7 @@ where {
     my ($col,$row) = $_ =~ /^(\w+):(\d+)$/;
     defined($col) && defined($row);
 },
-message { "Invalid cell label: $_" };
+message { "Invalid cell label: ".( $_ || 'UNDEF') };
 
 no Moose::Util::TypeConstraints;
 

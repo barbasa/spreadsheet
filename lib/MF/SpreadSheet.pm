@@ -69,7 +69,7 @@ sub query_cell {
     return $cell->query($self);
 }
 
-sub get_range {
+sub get_cells_in_range {
     my ($self, $top_left, $bottom_right,) = @_;
 
     $self->cells unless $self->has_cells;

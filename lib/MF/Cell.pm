@@ -7,6 +7,7 @@ use namespace::autoclean;
 use MooseX::Types::Moose qw/Int ArrayRef HashRef Str/;
 
 use MF::Types;
+use MF::Formula;
 
 has content => (
     isa         => 'CellValue',
@@ -27,12 +28,17 @@ sub set {
     my ($self, $content) = @_;
 
     $self->content($content || qq{});    
-    #XXX could have better formatted the following regexp with x :/
-    if ( $self->content =~ m{^=(?<type>SUM|MAX|MIN)\((?<top_left>\w+\d+):(?<bottom_right>\w+\d+)\)$}i ) {
+    #XXX Formulae type hardcoded!! Change it!
+    if ( $self->content =~ m{^=(?<type>SUM|MAX|MIN)                                 # Formula type
+                            \(
+                                (?<top_left_column>\w+)(?<top_left_row>\d+):        # Top left label
+                                (?<bottom_right_column>\w+)(?<bottom_left_row>\d+)  # Bottom right label
+                            \)$}ix 
+       ) {
         $self->_formula({
             type            => $+{type},
-            top_left        => $+{top_left},
-            bottom_right    => $+{bottom_right},
+            top_left        => "$+{top_left_column}:$+{top_left_row}",
+            bottom_right    => "$+{bottom_right_column}:$+{bottom_left_row}",
         });
     }
 
@@ -42,7 +48,11 @@ sub query {
     my ($self, $spreadsheet) = @_;
 
     if ($self->has_formula ) {
-        my $range = MF::Range->new( top_left => $self->_formula->{top_left}, bottom_right => $self->_formula->{bottom_right}, );
+        my $cells = $spreadsheet->get_cells_in_range(
+                        $self->_formula->{top_left},
+                        $self->_formula->{bottom_right},
+        );
+        return MF::Formula->with_traits( $self->_formula->{type} )->new( cells => $cells )->do;
     }
     return $self->content;
 }
