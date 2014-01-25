@@ -10,7 +10,7 @@ use MF::Types;
 use MF::Cell;
 
 has cells => (
-    isa     => HashRef,
+    isa     => HashRef['Cell'],
     is      => 'rw',
     lazy    => 1,
     clearer => '_clear_cells',
@@ -46,6 +46,22 @@ sub print {
         print "\n";
     }
     
+}
+
+#XXX When getting and setting parameter we need to check the coordinates
+# are in the allowed range
+sub set_cell {
+    my ($self, $row, $column,$value) = @_;
+
+    $self->{"$row$column"} ||= MF::Cell->new();
+    $self->{"$row$column"}->set($value);
+}
+
+sub query_cell {
+    my ($self, $row, $column,) = @_;
+
+    $self->{"$row$column"} ||= MF::Cell->new();
+    return $self->{"$row$column"}->query;
 }
 
 sub _build_cells {

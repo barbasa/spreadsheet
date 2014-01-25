@@ -5,7 +5,6 @@ package MF::Cell;
 use Moose;
 use namespace::autoclean;
 use MF::Types;
-#use MooseX::Types::Moose qw/Str/;
 
 has content => (
     isa         => 'CellValue',
@@ -14,6 +13,18 @@ has content => (
     default     => '',
     clearer     => '_clear_content',
 );
+
+sub set {
+    my ($self, $value) = @_;
+
+    $self->content($value);
+}
+
+sub query {
+    my ($self,) = @_;
+
+    return $self->content;
+}
 
 
 __PACKAGE__->meta->make_immutable;
