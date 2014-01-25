@@ -29,6 +29,11 @@ subtest 'set/query cell' => sub {
     is($ss->query_cell(1, 'A'), 7, 'set/query cell value');
     is($ss->query_cell(2, 'A'), qq{}, 'query empty cell value');
 
+    my $invalid_value = 'invalid value';
+    throws_ok{ $ss->set_cell(3, 'B', $invalid_value) }
+            qr/Validation failed for 'CellValue' with value "$invalid_value"/,
+            'invalid cell content caught okay';
+
     TODO: {
          local $TODO = 'Sanity check on input need to be implemented';
          throws_ok{ $ss->set_cell(1000, 'Z', 8) } qr/Invalid row or column/, 'invalid input values caught okay';
