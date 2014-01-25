@@ -24,6 +24,7 @@ has _formula => (
     predicate   => 'has_formula', 
 );
 
+# Set cell value. Take care of setting internal for formula.
 sub set {
     my ($self, $content) = @_;
 
@@ -44,6 +45,7 @@ sub set {
 
 }
 
+# Query the content of a cell. If needed apply formula.
 sub query {
     my ($self, $spreadsheet) = @_;
 
@@ -52,6 +54,7 @@ sub query {
                         $self->_formula->{top_left},
                         $self->_formula->{bottom_right},
         );
+        #XXX Cache this value instead of recalculate every time
         return MF::Formula->with_traits( $self->_formula->{type} )->new( cells => $cells )->do;
     }
     return $self->content;

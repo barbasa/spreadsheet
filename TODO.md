@@ -8,3 +8,4 @@ Apart for them, here some other points to improve:
 * Test coverace need improvements
 * Not all the formulae have been implemented
 * Parameter validation is weak!
+* Format cells output

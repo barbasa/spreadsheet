@@ -33,6 +33,7 @@ has max_column => (
     default => sub { $MF::Types::MAX_COLUMN  },
 );
 
+# Print out the content of the Spreadsheet
 sub print {
     my ($self, ) = @_;
 
@@ -51,9 +52,10 @@ sub print {
     
 }
 
-#XXX When getting and setting parameter we need to check the coordinates
-# are in the allowed range
+# Set a cell value
 sub set_cell {
+    #XXX When getting and setting parameter we need to check the coordinates
+    # are in the allowed range
     my ($self, $row, $column,$value) = @_;
     #XXX the cell object ($self->{"$row$column"})
     # need to be made accessible by a method
@@ -61,6 +63,7 @@ sub set_cell {
     $self->cells->{"$row$column"}->set($value);
 }
 
+# Query a cell value
 sub query_cell {
     my ($self, $row, $column,) = @_;
 
@@ -69,6 +72,7 @@ sub query_cell {
     return $cell->query($self);
 }
 
+# Get cells in a given range
 sub get_cells_in_range {
     my ($self, $top_left, $bottom_right,) = @_;
 

@@ -38,6 +38,7 @@ sub BUILD {
     $self->_bottom_right_column($bottom_right_col);
 }
 
+# Retunr cells in a given range
 sub get_cells {
     my ($self, $spreadsheet) = @_;
 

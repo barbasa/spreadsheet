@@ -4,6 +4,7 @@ use Moose::Role;
 
 requires 'cells';
 
+# Perform SUM operation
 sub do {
     my ($self,) = @_;
 
