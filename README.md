@@ -1,3 +1,12 @@
+Run the program
+===============
+
+Under the `scripts` directory there is a script called start.pl.
+This script demos the usage of the different objects.
+
+It has to be run from the home directory like:
+`perl scripts/start.pl`
+
 Dependencies
 ============
 
