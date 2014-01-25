@@ -7,8 +7,15 @@ our $MAX_ROW     = 10; # XXX Load from confing file
 our $MAX_COLUMN  = 'H';
 
 class_type 'Cell', { class => 'MF::Cell' };
+
 subtype    'EmptyCell' => as 'Str', where { $_ eq q{} };
-union      'CellValue' => [ qw{Num EmptyCell} ];
+subtype 'Formula' => as 'Str',
+where {
+    $_ =~ m{^=(SUM|MAX|MIN)\(\w+\d+:\w+\d+\)$}i;
+},
+message { "Invalid formula: $_" };
+
+union      'CellValue' => [ qw{Num EmptyCell Formula} ];
 
 subtype 'CellLabel' => as 'Str',
 where {

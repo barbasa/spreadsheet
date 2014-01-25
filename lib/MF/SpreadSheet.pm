@@ -57,15 +57,16 @@ sub set_cell {
     my ($self, $row, $column,$value) = @_;
     #XXX the cell object ($self->{"$row$column"})
     # need to be made accessible by a method
-    $self->{"$row$column"} ||= MF::Cell->new();
-    $self->{"$row$column"}->set($value);
+    $self->cells->{"$row$column"} ||= MF::Cell->new();
+    $self->cells->{"$row$column"}->set($value);
 }
 
 sub query_cell {
     my ($self, $row, $column,) = @_;
 
-    $self->{"$row$column"} ||= MF::Cell->new();
-    return $self->{"$row$column"}->query;
+    $self->cells->{"$row$column"} ||= MF::Cell->new();
+    my $cell = $self->cells->{"$row$column"};
+    return $cell->query($self);
 }
 
 sub get_range {

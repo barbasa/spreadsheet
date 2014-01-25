@@ -34,6 +34,13 @@ subtest 'set/query cell' => sub {
             qr/Validation failed for 'CellValue' with value "$invalid_value"/,
             'invalid cell content caught okay';
 
+    lives_ok{ $ss->set_cell(1, 'C', '=SUM(A3:C5)'); } 'formula set fine';
+    is($ss->cells->{"1C"}->has_formula, 1, 'formula field populated');
+    TODO: {
+         local $TODO = 'Test all field for formula are correctly populated';
+        is_deeply($ss->cells->{"1C",}->_formula,{},); 
+    }
+
     TODO: {
          local $TODO = 'Sanity check on input need to be implemented';
          throws_ok{ $ss->set_cell(1000, 'Z', 8) } qr/Invalid row or column/, 'invalid input values caught okay';
