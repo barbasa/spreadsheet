@@ -41,6 +41,7 @@ sub print {
         # Row headers
         print "$row)\t";
         foreach my $column ( "A" .. $self->max_column ) {
+            #XXX delegate print of the content to Cell object
             print $self->cells->{"$row$column"}->content . "\t";
         }
         print "\n";
