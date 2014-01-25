@@ -8,6 +8,7 @@ use MooseX::Types::Moose qw/Int ArrayRef HashRef Str/;
 
 use MF::Types;
 use MF::Cell;
+use MF::Range;
 
 has cells => (
     isa     => HashRef['Cell'],
@@ -15,6 +16,7 @@ has cells => (
     lazy    => 1,
     clearer => '_clear_cells',
     builder => '_build_cells',
+    predicate => 'has_cells',
 );
 
 has max_row => (
@@ -53,7 +55,8 @@ sub print {
 # are in the allowed range
 sub set_cell {
     my ($self, $row, $column,$value) = @_;
-
+    #XXX the cell object ($self->{"$row$column"})
+    # need to be made accessible by a method
     $self->{"$row$column"} ||= MF::Cell->new();
     $self->{"$row$column"}->set($value);
 }
@@ -63,6 +66,14 @@ sub query_cell {
 
     $self->{"$row$column"} ||= MF::Cell->new();
     return $self->{"$row$column"}->query;
+}
+
+sub get_range {
+    my ($self, $top_left, $bottom_right,) = @_;
+
+    $self->cells unless $self->has_cells;
+    my $range = MF::Range->new( top_left => $top_left, bottom_right => $bottom_right,);
+    return $range->get_cells($self);
 }
 
 sub _build_cells {

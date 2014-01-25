@@ -40,4 +40,17 @@ subtest 'set/query cell' => sub {
     }
 };
 
+subtest 'range' => sub {
+    my $ss = MF::SpreadSheet->new();
+    my $cells = $ss->get_range('A:1','B:2');
+    is(@$cells, 4, 'count cells');
+    foreach my $cell (@$cells) {
+       isa_ok($cell, 'MF::Cell'); 
+    }
+
+    my $single_cell = $ss->get_range('A:1','A:1');
+    is(@$single_cell, 1, 'single cell');
+    isa_ok($single_cell->[0], 'MF::Cell'); 
+};
+
 done_testing();
