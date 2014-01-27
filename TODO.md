@@ -9,3 +9,5 @@ Apart for them, here some other points to improve:
 * Not all the formulae have been implemented
 * Parameter validation is weak!
 * Format cells output in a better way
+* The printing to the output could have been delegated to a dedicated class
+* All the logic on MF::Cell about formulae should have been moved into the MF::Formula object

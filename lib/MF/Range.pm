@@ -15,6 +15,8 @@ has ['top_left', 'bottom_right'] => (
             required    => 1,
 );
 
+#XXX These attributes contain redundant information...I could have kept just
+#    top_left, bottom_right or top_left_* _bottom_right_*
 has ['_top_left_row', '_bottom_right_row'] => (
             is      => 'rw',
             isa     => Int, #XXX Create RowId type
